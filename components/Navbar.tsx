@@ -41,12 +41,14 @@ export default function Navbar({ locale, locales }: NavbarProps) {
 
   const prefix = `/${locale}`;
   const restPath = pathname?.replace(new RegExp(`^/${locale}`), "") || "";
+  const isHome = restPath === "" || restPath === "/";
+  const navSolid = scrolled || !isHome;
 
   return (
     <header
       className={cn(
         "fixed top-0 z-50 w-full transition-all duration-300",
-        scrolled ? "glass-strong py-3 shadow-lg shadow-black/20" : "bg-transparent py-5"
+        navSolid ? "glass-strong py-3 shadow-lg shadow-black/20" : "bg-transparent py-5"
       )}
     >
       <div className="mx-auto flex max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">

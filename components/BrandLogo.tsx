@@ -27,16 +27,17 @@ export default function BrandLogo({
   const emblem = (size: "sm" | "md") => (
     <span
       className={cn(
-        "relative inline-flex shrink-0 items-center justify-center overflow-hidden rounded-full bg-white shadow-[0_0_0_1px_rgba(176,128,64,0.35)]",
+        "brand-emblem relative inline-flex shrink-0 overflow-hidden rounded-full bg-white shadow-[0_0_0_1px_rgba(176,128,64,0.35)]",
         size === "sm" ? "h-9 w-9" : "h-11 w-11 sm:h-12 sm:w-12",
       )}
     >
+      {/* PNG lockup ichida matn bor — dumaloq markada faqat me’moriy qism ko‘rinsin */}
       <Image
         src={BRAND.src}
         alt={variant === "full" ? "" : BRAND.name}
-        width={size === "sm" ? 36 : 48}
-        height={size === "sm" ? 36 : 48}
-        className="h-[92%] w-[92%] object-contain"
+        fill
+        sizes={size === "sm" ? "36px" : "48px"}
+        className="brand-emblem-img object-cover object-[50%_14%]"
         priority={priority}
       />
     </span>

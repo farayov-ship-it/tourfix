@@ -194,6 +194,16 @@
   --brand-gold: #b08040;
 }
 
+@layer components {
+  /* Dumaloq emblem: lockup PNG’dagi “TurkUztan TRAVEL” matnini qirqib, faqat gerb qoladi */
+  .brand-emblem-img {
+    object-fit: cover !important;
+    object-position: 50% 0% !important;
+    transform: scale(2.15);
+    transform-origin: 50% 0%;
+  }
+}
+
 @layer base {
   html {
     scroll-behavior: smooth;
@@ -395,6 +405,10 @@
 [data-theme="logo"] .site-hero .text-sand-400 {
   color: rgba(247, 244, 236, 0.78) !important;
 }
+[data-theme="logo"] .site-hero .text-sand-500,
+[data-theme="logo"] .site-hero .text-sand-600 {
+  color: rgba(247, 244, 236, 0.72) !important;
+}
 [data-theme="logo"] .site-hero .glass {
   background: rgba(0, 32, 64, 0.45) !important;
   border-color: rgba(176, 128, 64, 0.4) !important;
@@ -414,7 +428,7 @@
 }
 [data-theme="logo"] header.fixed:not(.shadow-lg) .text-gold-500,
 [data-theme="logo"] header.fixed:not(.shadow-lg) .text-gold-400 {
-  color: #c99852 !important;
+  color: #e8c27a !important;
 }
 [data-theme="logo"] header.fixed:not(.shadow-lg) .text-sand-300,
 [data-theme="logo"] header.fixed:not(.shadow-lg) a,
