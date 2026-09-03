@@ -34,7 +34,7 @@ export default function ThemeSwitcher({ locale }: { locale: Locale }) {
       {open && (
         <>
           <div className="fixed inset-0 z-40" onClick={() => setOpen(false)} />
-          <div className="absolute right-0 top-full z-50 mt-1 min-w-[168px] overflow-hidden rounded-xl glass-strong py-1 shadow-xl">
+          <div className="nav-menu absolute right-0 top-full z-50 mt-1 min-w-[168px] overflow-hidden rounded-xl glass-strong py-1 shadow-xl">
             <p className="px-4 py-2 text-[10px] uppercase tracking-wider text-sand-500">
               {locale === "uz" ? "Dizayn" : locale === "ru" ? "Дизайн" : "Design"}
             </p>

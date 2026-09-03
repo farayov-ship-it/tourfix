@@ -94,7 +94,7 @@ export default function Navbar({ locale, locales }: NavbarProps) {
                   animate={{ opacity: 1, y: 0, scale: 1 }}
                   exit={{ opacity: 0, y: -4, scale: 0.98 }}
                   transition={{ duration: 0.18 }}
-                  className="absolute right-0 top-full z-50 mt-1 max-h-80 min-w-[160px] overflow-y-auto rounded-xl glass-strong py-1 shadow-xl origin-top-right"
+                  className="nav-menu absolute right-0 top-full z-50 mt-1 max-h-80 min-w-[160px] overflow-y-auto rounded-xl glass-strong py-1 shadow-xl origin-top-right"
                 >
                   {locales.map((l) => (
                     <Link
@@ -133,7 +133,7 @@ export default function Navbar({ locale, locales }: NavbarProps) {
       </div>
 
       {mobileOpen && (
-        <div className="glass-strong border-t border-white/10 lg:hidden">
+        <div className="nav-menu glass-strong border-t border-white/10 lg:hidden">
           <nav className="flex flex-col gap-1 px-4 py-4">
             {navLinks.map((link) => (
               <Link

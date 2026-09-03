@@ -441,6 +441,29 @@
   background-color: rgba(255, 255, 255, 0.08);
 }
 
+/* Oq dropdown (dizayn/til) — navy matn, hero och ranglarini bekor qiladi */
+[data-theme="logo"] header .nav-menu {
+  background: #ffffff !important;
+  color: #002040;
+}
+[data-theme="logo"] header .nav-menu .text-sand-500 {
+  color: #6b869e !important;
+}
+[data-theme="logo"] header .nav-menu a,
+[data-theme="logo"] header .nav-menu button {
+  color: #002040 !important;
+  background-color: transparent !important;
+}
+[data-theme="logo"] header .nav-menu a:hover,
+[data-theme="logo"] header .nav-menu button:hover {
+  color: #002040 !important;
+  background-color: rgba(0, 32, 64, 0.06) !important;
+}
+[data-theme="logo"] header.fixed .nav-menu .text-gold-500,
+[data-theme="logo"] header.fixed .nav-menu .text-gold-400 {
+  color: #b08040 !important;
+}
+
 [data-theme="logo"] header.fixed.shadow-lg {
   border-bottom: 1px solid rgba(176, 128, 64, 0.3);
 }
