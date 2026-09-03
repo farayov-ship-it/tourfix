@@ -1,0 +1,289 @@
+generator client {
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "rhel-openssl-3.0.x"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum PublishStatus {
+  draft
+  published
+  archived
+}
+
+enum AdminRole {
+  owner
+  editor
+}
+
+enum BookingStatus {
+  new
+  contacted
+  confirmed
+  closed
+  spam
+}
+
+enum BookingChannel {
+  whatsapp
+  telegram
+}
+
+enum BookingSource {
+  web
+  telegram_bot
+}
+
+model Locale {
+  id         String  @id @default(cuid())
+  code       String  @unique
+  name       String
+  nativeName String
+  flag       String  @default("")
+  enabled    Boolean @default(true)
+  isDefault  Boolean @default(false)
+  sortOrder  Int     @default(0)
+  dir        String  @default("ltr") // ltr | rtl
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
+
+model AdminUser {
+  id           String    @id @default(cuid())
+  email        String    @unique
+  passwordHash String
+  name         String?
+  role         AdminRole @default(editor)
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+  audits       AuditLog[]
+}
+
+model MediaAsset {
+  id        String   @id @default(cuid())
+  url       String
+  key       String
+  alt       String   @default("{}") // LocaleMap JSON
+  mime      String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  routes        Route[]
+  vehicles      Vehicle[]
+  guides        Guide[]
+  dayTrips      DayTrip[]
+  destinations  Destination[]
+  blogPosts     BlogPost[]
+}
+
+model SiteSettings {
+  id                    String @id @default("default")
+  whatsapp              String @default("")
+  telegram              String @default("")
+  email                 String @default("")
+  instagram             String @default("")
+  defaultBookingChannel String @default("ask") // whatsapp | telegram | ask
+  stats                 String @default("{}") // { routes, vehicles, rating, guides }
+  silkRouteStops        String @default("[]") // string[] city codes/names
+  messageTemplates      String @default("{}") // channel x locale templates
+  homeVehiclesLimit     Int    @default(6)
+  homeGuidesLimit       Int    @default(3)
+  homeDayTripsLimit     Int    @default(3)
+  homeRoutesLimit       Int    @default(6)
+  heroImageMain         String?
+  heroImageSecondary    String?
+  heroImageAccent       String?
+  ctaImage              String?
+  servicesImages        String @default("{}")
+  /** Was env: TELEGRAM_BOT_TOKEN — managed in admin */
+  telegramBotToken      String @default("")
+  /** Was env: TELEGRAM_WEBHOOK_SECRET */
+  telegramWebhookSecret String @default("")
+  /** Was env: MEDIA_DRIVER — local | s3 */
+  mediaDriver           String @default("local")
+  /** Auto-translate: google | mymemory | deepl | libre */
+  translationProvider   String @default("google")
+  translationApiKey     String @default("")
+  /** LibreTranslate base URL, e.g. https://libretranslate.com */
+  translationApiUrl     String @default("")
+  updatedAt             DateTime @updatedAt
+}
+
+model City {
+  id         String  @id @default(cuid())
+  slug       String  @unique
+  name       String  // LocaleMap JSON
+  isAirport  Boolean @default(false)
+  sortOrder  Int     @default(0)
+  published  Boolean @default(true)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
+
+model Route {
+  id         String        @id @default(cuid())
+  slug       String        @unique
+  fromName   String
+  toName     String
+  price      Float
+  duration   String
+  distance   String
+  popular    Boolean       @default(false)
+  sortOrder  Int           @default(0)
+  status     PublishStatus @default(published)
+  imageId    String?
+  image      MediaAsset?   @relation(fields: [imageId], references: [id])
+  createdAt  DateTime      @default(now())
+  updatedAt  DateTime      @updatedAt
+}
+
+model Vehicle {
+  id         String        @id @default(cuid())
+  slug       String        @unique
+  name       String
+  category   String
+  capacity   Int
+  priceFrom  Float
+  sortOrder  Int           @default(0)
+  status     PublishStatus @default(published)
+  imageId    String?
+  image      MediaAsset?   @relation(fields: [imageId], references: [id])
+  createdAt  DateTime      @default(now())
+  updatedAt  DateTime      @updatedAt
+}
+
+model Guide {
+  id           String        @id @default(cuid())
+  slug         String        @unique
+  name         String
+  city         String
+  languages    String        // JSON string[]
+  rating       Float         @default(5)
+  reviewsCount Int           @default(0)
+  pricePerDay  Float
+  specialty    String        @default("{}") // LocaleMap
+  sortOrder    Int           @default(0)
+  status       PublishStatus @default(published)
+  imageId      String?
+  image        MediaAsset?   @relation(fields: [imageId], references: [id])
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+}
+
+model DayTrip {
+  id         String        @id @default(cuid())
+  slug       String        @unique
+  title      String        // LocaleMap JSON
+  city       String
+  duration   String
+  price      Float
+  highlights String        @default("{}") // LocaleMap of string[]
+  sortOrder  Int           @default(0)
+  status     PublishStatus @default(published)
+  imageId    String?
+  image      MediaAsset?   @relation(fields: [imageId], references: [id])
+  createdAt  DateTime      @default(now())
+  updatedAt  DateTime      @updatedAt
+}
+
+model Review {
+  id        String        @id @default(cuid())
+  name      String
+  country   String
+  rating    Int           @default(5)
+  text      String        // LocaleMap JSON
+  date      DateTime
+  sortOrder Int           @default(0)
+  status    PublishStatus @default(published)
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
+}
+
+model Destination {
+  id        String   @id @default(cuid())
+  slug      String   @unique
+  name      String   // LocaleMap
+  tagline   String   @default("{}")
+  sortOrder Int      @default(0)
+  featured  Boolean  @default(true)
+  published Boolean  @default(true)
+  imageId   String?
+  image     MediaAsset? @relation(fields: [imageId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model UiCopy {
+  id        String   @id @default(cuid())
+  key       String   @unique
+  group     String   @default("general")
+  value     String   // LocaleMap JSON
+  updatedAt DateTime @updatedAt
+}
+
+model FaqItem {
+  id        String        @id @default(cuid())
+  question  String        // LocaleMap
+  answer    String        // LocaleMap
+  sortOrder Int           @default(0)
+  status    PublishStatus @default(published)
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
+}
+
+model SeoPage {
+  id          String   @id @default(cuid())
+  path        String   @unique // e.g. "home", "transfers", "guides"
+  title       String   @default("{}")
+  description String   @default("{}")
+  updatedAt   DateTime @updatedAt
+}
+
+model BlogPost {
+  id          String        @id @default(cuid())
+  slug        String        @unique
+  title       String        // LocaleMap
+  excerpt     String        @default("{}")
+  body        String        @default("{}")
+  status      PublishStatus @default(draft)
+  publishedAt DateTime?
+  coverId     String?
+  cover       MediaAsset?   @relation(fields: [coverId], references: [id])
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+}
+
+model BookingRequest {
+  id               String         @id @default(cuid())
+  fromPlace        String?
+  toPlace          String?
+  travelDate       String?
+  passengers       Int?
+  vehicleCategory  String?
+  name             String
+  phone            String
+  priceHint        Float?
+  notes            String?
+  preferredChannel BookingChannel @default(whatsapp)
+  source           BookingSource  @default(web)
+  locale           String?
+  status           BookingStatus  @default(new)
+  adminNote        String?
+  telegramChatId   String?
+  createdAt        DateTime       @default(now())
+  updatedAt        DateTime       @updatedAt
+}
+
+model AuditLog {
+  id         String   @id @default(cuid())
+  userId     String?
+  user       AdminUser? @relation(fields: [userId], references: [id])
+  action     String
+  entity     String
+  entityId   String?
+  diff       String?  // JSON
+  createdAt  DateTime @default(now())
+}

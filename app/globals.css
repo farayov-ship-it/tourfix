@@ -1,0 +1,789 @@
+@import "tailwindcss";
+
+@theme {
+  --color-sand-50: var(--sand-50);
+  --color-sand-100: var(--sand-100);
+  --color-sand-200: var(--sand-200);
+  --color-sand-300: var(--sand-300);
+  --color-sand-400: var(--sand-400);
+  --color-sand-500: var(--sand-500);
+  --color-sand-600: var(--sand-600);
+  --color-sand-700: var(--sand-700);
+  --color-sand-800: var(--sand-800);
+  --color-sand-900: var(--sand-900);
+  --color-sand-950: var(--sand-950);
+
+  --color-gold-400: var(--gold-400);
+  --color-gold-500: var(--gold-500);
+  --color-gold-600: var(--gold-600);
+
+  --color-teal-400: var(--teal-400);
+  --color-teal-500: var(--teal-500);
+
+  /* Button text on primary CTAs — overridden per theme */
+  --color-ink: var(--ink);
+
+  --font-display: "Cormorant Garamond", Georgia, serif;
+  --font-body: "Outfit", system-ui, sans-serif;
+}
+
+/* ——— BLACK (default) ——— */
+:root,
+[data-theme="black"] {
+  --sand-50: #faf7f2;
+  --sand-100: #f3ede3;
+  --sand-200: #e8dcc8;
+  --sand-300: #d4c4a8;
+  --sand-400: #b8a078;
+  --sand-500: #9a8260;
+  --sand-600: #7d6849;
+  --sand-700: #5c4d36;
+  --sand-800: #3d3325;
+  --sand-900: #1f1a12;
+  --sand-950: #0f0d09;
+
+  --gold-400: #e8c547;
+  --gold-500: #d4a853;
+  --gold-600: #b8923f;
+
+  --teal-400: #2dd4bf;
+  --teal-500: #14b8a6;
+
+  --ink: #0f0d09;
+
+  --glass-bg: rgba(255, 255, 255, 0.05);
+  --glass-bg-strong: rgba(255, 255, 255, 0.1);
+  --glass-border: rgba(255, 255, 255, 0.1);
+  --glass-border-strong: rgba(255, 255, 255, 0.15);
+  --overlay: rgba(255, 255, 255, 0.05);
+  --overlay-hover: rgba(255, 255, 255, 0.1);
+  --line: rgba(255, 255, 255, 0.1);
+  --shadow: rgba(0, 0, 0, 0.2);
+
+  --atmosphere: radial-gradient(ellipse at 20% 0%, rgba(61, 51, 37, 0.55) 0%, transparent 50%),
+    radial-gradient(ellipse at 90% 80%, rgba(45, 40, 28, 0.4) 0%, transparent 45%),
+    linear-gradient(180deg, #14110c 0%, #0f0d09 40%, #12100b 100%);
+  --pattern-stroke: #d4a853;
+  --pattern-opacity: 0.055;
+  --cursor-trail: 240, 193, 75;
+}
+
+/* ——— BLUE (ochiq moviy) ——— */
+[data-theme="blue"] {
+  --sand-50: #0b1628;
+  --sand-100: #122033;
+  --sand-200: #1a2f4a;
+  --sand-300: #2a4466;
+  --sand-400: #4a678a;
+  --sand-500: #6b87a8;
+  --sand-600: #93a9c2;
+  --sand-700: #b8c9db;
+  --sand-800: #d6e3f0;
+  --sand-900: #e8f0f8;
+  --sand-950: #eef5fb;
+
+  /* Accent = blue (not gold) */
+  --gold-400: #60a5fa;
+  --gold-500: #3b82f6;
+  --gold-600: #1d4ed8;
+
+  --teal-400: #38bdf8;
+  --teal-500: #0284c7;
+
+  --ink: #ffffff;
+
+  --glass-bg: rgba(255, 255, 255, 0.55);
+  --glass-bg-strong: rgba(255, 255, 255, 0.75);
+  --glass-border: rgba(15, 40, 80, 0.1);
+  --glass-border-strong: rgba(15, 40, 80, 0.14);
+  --overlay: rgba(15, 40, 80, 0.04);
+  --overlay-hover: rgba(15, 40, 80, 0.08);
+  --line: rgba(15, 40, 80, 0.1);
+  --shadow: rgba(37, 99, 235, 0.12);
+
+  --atmosphere: radial-gradient(ellipse at 15% 0%, rgba(147, 197, 253, 0.5) 0%, transparent 50%),
+    radial-gradient(ellipse at 90% 70%, rgba(125, 211, 252, 0.35) 0%, transparent 45%),
+    linear-gradient(180deg, #f0f7fd 0%, #e8f2fa 45%, #eef5fb 100%);
+  --pattern-stroke: #3b82f6;
+  --pattern-opacity: 0.08;
+  --cursor-trail: 59, 130, 246;
+}
+
+/* ——— WHITE (oq ochiq) ——— */
+[data-theme="white"] {
+  --sand-50: #14110c;
+  --sand-100: #1f1a12;
+  --sand-200: #3d3325;
+  --sand-300: #5c4d36;
+  --sand-400: #7d6849;
+  --sand-500: #9a8260;
+  --sand-600: #b8a078;
+  --sand-700: #d4c4a8;
+  --sand-800: #ebe4d8;
+  --sand-900: #f5f1ea;
+  --sand-950: #faf9f7;
+
+  --gold-400: #c9a227;
+  --gold-500: #b8922f;
+  --gold-600: #9a7a22;
+
+  --teal-400: #0d9488;
+  --teal-500: #0f766e;
+
+  --ink: #0f0d09;
+
+  --glass-bg: rgba(255, 255, 255, 0.7);
+  --glass-bg-strong: rgba(255, 255, 255, 0.9);
+  --glass-border: rgba(20, 17, 12, 0.08);
+  --glass-border-strong: rgba(20, 17, 12, 0.12);
+  --overlay: rgba(20, 17, 12, 0.03);
+  --overlay-hover: rgba(20, 17, 12, 0.06);
+  --line: rgba(20, 17, 12, 0.09);
+  --shadow: rgba(20, 17, 12, 0.06);
+
+  --atmosphere: radial-gradient(ellipse at 20% 0%, rgba(232, 220, 200, 0.5) 0%, transparent 50%),
+    radial-gradient(ellipse at 85% 80%, rgba(245, 241, 234, 0.8) 0%, transparent 45%),
+    linear-gradient(180deg, #ffffff 0%, #faf9f7 50%, #f5f1ea 100%);
+  --pattern-stroke: #b8923f;
+  --pattern-opacity: 0.06;
+  --cursor-trail: 184, 146, 47;
+}
+
+/* ——— LOGO (TurkUztan: oq fon + navy + tillarang) ——— */
+[data-theme="logo"] {
+  /* Light theme: sand inverted — 950 = oq fon, 50 = navy matn */
+  --sand-50: #002040;
+  --sand-100: #0a2a4a;
+  --sand-200: #1a3a5c;
+  --sand-300: #2e5070;
+  --sand-400: #4a6a88;
+  --sand-500: #6b869e;
+  --sand-600: #8fa3b5;
+  --sand-700: #c4b07a;
+  --sand-800: #e8e4dc;
+  --sand-900: #f5f3ee;
+  --sand-950: #ffffff;
+
+  --gold-400: #c99852;
+  --gold-500: #b08040;
+  --gold-600: #8f6630;
+
+  --teal-400: #3a6a94;
+  --teal-500: #002040;
+
+  --ink: #ffffff;
+
+  --glass-bg: rgba(255, 255, 255, 0.78);
+  --glass-bg-strong: rgba(255, 255, 255, 0.94);
+  --glass-border: rgba(0, 32, 64, 0.1);
+  --glass-border-strong: rgba(176, 128, 64, 0.35);
+  --overlay: rgba(0, 32, 64, 0.04);
+  --overlay-hover: rgba(0, 32, 64, 0.07);
+  --line: rgba(0, 32, 64, 0.1);
+  --shadow: rgba(0, 32, 64, 0.08);
+
+  --atmosphere:
+    radial-gradient(ellipse at 15% 0%, rgba(176, 128, 64, 0.12) 0%, transparent 48%),
+    radial-gradient(ellipse at 90% 80%, rgba(0, 32, 64, 0.05) 0%, transparent 45%),
+    linear-gradient(180deg, #ffffff 0%, #faf8f4 50%, #f3f0ea 100%);
+  --pattern-stroke: #b08040;
+  --pattern-opacity: 0.055;
+  --cursor-trail: 176, 128, 64;
+
+  --brand-navy: #002040;
+  --brand-gold: #b08040;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-sand-950 text-sand-100 antialiased;
+    font-family: var(--font-body);
+    background-color: var(--sand-950);
+    color: var(--sand-100);
+    transition: background-color 0.35s ease, color 0.35s ease;
+  }
+
+  html.gold-cursor-on,
+  html.gold-cursor-on * {
+    cursor: none !important;
+  }
+
+  .font-display {
+    font-family: var(--font-display);
+  }
+
+  ::selection {
+    @apply bg-gold-500/30 text-sand-50;
+  }
+}
+
+@layer utilities {
+  .glass {
+    background-color: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    backdrop-filter: blur(20px);
+  }
+
+  .glass-strong {
+    background-color: var(--glass-bg-strong);
+    border: 1px solid var(--glass-border-strong);
+    backdrop-filter: blur(28px);
+  }
+
+  .text-gradient {
+    @apply bg-gradient-to-r from-gold-400 via-sand-200 to-gold-500 bg-clip-text text-transparent;
+  }
+
+  .glow-gold {
+    box-shadow: 0 0 60px color-mix(in srgb, var(--gold-500) 15%, transparent);
+  }
+
+  .animate-float-slow {
+    animation: float 8s ease-in-out infinite;
+  }
+
+  .animate-float-delayed {
+    animation: float 9s ease-in-out 1.2s infinite;
+  }
+
+  .animate-pulse-soft {
+    animation: pulse-soft 2.4s ease-in-out infinite;
+  }
+
+  .theme-atmosphere {
+    background: var(--atmosphere);
+  }
+
+  /* Soft card glow on hover (no layout jump) */
+  .card-glow {
+    transition: box-shadow 0.45s ease, border-color 0.45s ease, transform 0.45s ease;
+  }
+  .card-glow:hover {
+    border-color: color-mix(in srgb, var(--gold-500) 45%, transparent);
+    box-shadow:
+      0 0 0 1px color-mix(in srgb, var(--gold-500) 25%, transparent),
+      0 12px 40px color-mix(in srgb, var(--gold-500) 18%, transparent);
+  }
+
+  /* CTA shimmer */
+  .btn-shimmer {
+    position: relative;
+    overflow: hidden;
+  }
+  .btn-shimmer::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      105deg,
+      transparent 40%,
+      rgba(255, 255, 255, 0.35) 50%,
+      transparent 60%
+    );
+    transform: translateX(-120%);
+    animation: shimmer 2.8s ease-in-out infinite;
+  }
+}
+
+@keyframes shimmer {
+  0%,
+  55% {
+    transform: translateX(-120%);
+  }
+  100% {
+    transform: translateX(120%);
+  }
+}
+
+/* Light themes: remap white/black overlays used across cards */
+[data-theme="blue"] .border-white\/10,
+[data-theme="white"] .border-white\/10,
+[data-theme="logo"] .border-white\/10,
+[data-theme="blue"] .border-t.border-white\/10,
+[data-theme="white"] .border-t.border-white\/10,
+[data-theme="logo"] .border-t.border-white\/10 {
+  border-color: var(--line);
+}
+
+[data-theme="blue"] .bg-white\/5,
+[data-theme="white"] .bg-white\/5,
+[data-theme="logo"] .bg-white\/5,
+[data-theme="blue"] .hover\:bg-white\/5:hover,
+[data-theme="white"] .hover\:bg-white\/5:hover,
+[data-theme="logo"] .hover\:bg-white\/5:hover,
+[data-theme="blue"] .hover\:bg-white\/10:hover,
+[data-theme="white"] .hover\:bg-white\/10:hover,
+[data-theme="logo"] .hover\:bg-white\/10:hover {
+  background-color: var(--overlay);
+}
+
+[data-theme="blue"] .bg-white\/\[0\.03\],
+[data-theme="white"] .bg-white\/\[0\.03\],
+[data-theme="logo"] .bg-white\/\[0\.03\] {
+  background-color: color-mix(in srgb, white 85%, transparent);
+  border-color: var(--line);
+}
+
+[data-theme="blue"] .shadow-black\/20,
+[data-theme="white"] .shadow-black\/20,
+[data-theme="logo"] .shadow-black\/20,
+[data-theme="blue"] .shadow-black\/30,
+[data-theme="white"] .shadow-black\/30,
+[data-theme="logo"] .shadow-black\/30,
+[data-theme="blue"] .shadow-black\/40,
+[data-theme="white"] .shadow-black\/40,
+[data-theme="logo"] .shadow-black\/40 {
+  --tw-shadow-color: var(--shadow);
+}
+
+[data-theme="blue"] .ring-white\/0,
+[data-theme="white"] .ring-white\/0,
+[data-theme="logo"] .ring-white\/0 {
+  --tw-ring-color: transparent;
+}
+
+/* ——— LOGO theme: kombinatsiya — hero navy, seksiyalar oq ——— */
+[data-theme="logo"] .text-gradient {
+  background-image: linear-gradient(105deg, #002040 0%, #b08040 55%, #c99852 100%);
+}
+
+[data-theme="logo"] .site-hero .text-gradient {
+  background-image: linear-gradient(105deg, #c99852 0%, #b08040 40%, #f7f4ec 100%);
+}
+
+[data-theme="logo"] .btn-shimmer {
+  background-image: linear-gradient(105deg, #b08040, #8f6630) !important;
+  color: #ffffff !important;
+  border: 1px solid #c99852;
+  box-shadow: 0 8px 24px rgba(176, 128, 64, 0.25);
+}
+
+[data-theme="logo"] .glass,
+[data-theme="logo"] .glass-strong {
+  border-color: rgba(176, 128, 64, 0.28);
+  box-shadow: 0 8px 28px rgba(0, 32, 64, 0.06);
+}
+
+/* Hero: navy kirish zonasi */
+[data-theme="logo"] .site-hero .hero-scrim-x {
+  background: linear-gradient(
+    to right,
+    rgba(0, 32, 64, 0.92) 0%,
+    rgba(0, 32, 64, 0.72) 45%,
+    rgba(0, 32, 64, 0.25) 100%
+  ) !important;
+}
+[data-theme="logo"] .site-hero .hero-scrim-y {
+  background: linear-gradient(
+    to top,
+    rgba(0, 32, 64, 0.88) 0%,
+    transparent 55%,
+    rgba(0, 32, 64, 0.4) 100%
+  ) !important;
+}
+
+[data-theme="logo"] .site-hero .text-sand-50,
+[data-theme="logo"] .site-hero .text-sand-100,
+[data-theme="logo"] .site-hero .text-sand-200 {
+  color: #f7f4ec !important;
+}
+[data-theme="logo"] .site-hero .text-sand-300,
+[data-theme="logo"] .site-hero .text-sand-400 {
+  color: rgba(247, 244, 236, 0.78) !important;
+}
+[data-theme="logo"] .site-hero .glass {
+  background: rgba(0, 32, 64, 0.45) !important;
+  border-color: rgba(176, 128, 64, 0.4) !important;
+  color: #f7f4ec;
+}
+[data-theme="logo"] .site-hero .brand-ornament-mark {
+  background: #002040;
+  box-shadow: 0 0 0 3px rgba(176, 128, 64, 0.25);
+}
+
+/* Navbar hero ustida — och matn; scroll qilganda — navy */
+[data-theme="logo"] header.fixed:not(.shadow-lg) {
+  color: #f7f4ec;
+}
+[data-theme="logo"] header.fixed:not(.shadow-lg) .font-display {
+  color: #f7f4ec !important;
+}
+[data-theme="logo"] header.fixed:not(.shadow-lg) .text-gold-500,
+[data-theme="logo"] header.fixed:not(.shadow-lg) .text-gold-400 {
+  color: #c99852 !important;
+}
+[data-theme="logo"] header.fixed:not(.shadow-lg) .text-sand-300,
+[data-theme="logo"] header.fixed:not(.shadow-lg) a,
+[data-theme="logo"] header.fixed:not(.shadow-lg) button {
+  color: rgba(247, 244, 236, 0.88);
+}
+[data-theme="logo"] header.fixed:not(.shadow-lg) a:hover,
+[data-theme="logo"] header.fixed:not(.shadow-lg) button:hover {
+  color: #ffffff;
+  background-color: rgba(255, 255, 255, 0.08);
+}
+
+[data-theme="logo"] header.fixed.shadow-lg {
+  border-bottom: 1px solid rgba(176, 128, 64, 0.3);
+}
+
+[data-theme="logo"] .card-glow {
+  border-radius: 1rem;
+  border-color: rgba(0, 32, 64, 0.1);
+  background: #ffffff;
+  box-shadow: 0 4px 20px rgba(0, 32, 64, 0.05);
+}
+[data-theme="logo"] .card-glow:hover {
+  border-color: #b08040;
+  box-shadow:
+    0 0 0 1px rgba(176, 128, 64, 0.25),
+    0 14px 36px rgba(0, 32, 64, 0.1);
+}
+
+/* Pastki seksiyalar — oq / krem (navy band emas) */
+[data-theme="logo"] .bg-sand-950\/50 {
+  background-color: #f7f5f0 !important;
+  background-image: none !important;
+}
+[data-theme="logo"]
+  .bg-gradient-to-b.from-transparent.via-sand-900\/30.to-transparent:not(.band-navy),
+[data-theme="logo"]
+  .bg-gradient-to-b.from-transparent.via-sand-900\/20.to-transparent:not(.band-navy) {
+  background-color: #f7f5f0 !important;
+  background-image: none !important;
+}
+
+/* O‘rta navy bandlar — Silk Route / How it works / Reviews / CTA */
+[data-theme="logo"] .band-navy {
+  position: relative;
+  background:
+    radial-gradient(ellipse 80% 50% at 50% 0%, rgba(176, 128, 64, 0.12), transparent 55%),
+    linear-gradient(180deg, #002448 0%, #002040 45%, #001830 100%) !important;
+  color: #f7f4ec;
+}
+[data-theme="logo"] .band-navy.bg-gradient-to-b {
+  background:
+    radial-gradient(ellipse 80% 50% at 50% 0%, rgba(176, 128, 64, 0.12), transparent 55%),
+    linear-gradient(180deg, #002448 0%, #002040 45%, #001830 100%) !important;
+}
+[data-theme="logo"] .band-navy .text-sand-50,
+[data-theme="logo"] .band-navy .text-sand-100,
+[data-theme="logo"] .band-navy .text-sand-200 {
+  color: #f7f4ec !important;
+}
+[data-theme="logo"] .band-navy .text-sand-300,
+[data-theme="logo"] .band-navy .text-sand-400,
+[data-theme="logo"] .band-navy .text-sand-500 {
+  color: rgba(247, 244, 236, 0.72) !important;
+}
+[data-theme="logo"] .band-navy .text-gold-500,
+[data-theme="logo"] .band-navy .text-gold-400 {
+  color: #c99852 !important;
+}
+[data-theme="logo"] .band-navy .glass {
+  background: rgba(255, 255, 255, 0.08) !important;
+  border-color: rgba(176, 128, 64, 0.35) !important;
+  color: #f7f4ec;
+}
+[data-theme="logo"] .band-navy .card-glow {
+  border-color: rgba(176, 128, 64, 0.28) !important;
+  background: rgba(255, 255, 255, 0.06) !important;
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.25);
+}
+[data-theme="logo"] .band-navy .card-glow:hover {
+  border-color: #b08040 !important;
+  box-shadow:
+    0 0 0 1px rgba(176, 128, 64, 0.35),
+    0 14px 36px rgba(0, 0, 0, 0.35);
+}
+[data-theme="logo"] .band-navy .brand-ornament-mark {
+  background: #002040;
+  box-shadow: 0 0 0 3px rgba(176, 128, 64, 0.25);
+}
+[data-theme="logo"] .band-navy .border-white\/10,
+[data-theme="logo"] .band-navy .border-white\/5 {
+  border-color: rgba(176, 128, 64, 0.25) !important;
+}
+[data-theme="logo"] .band-navy .bg-sand-950 {
+  background-color: #001830 !important;
+}
+[data-theme="logo"] .band-navy .text-sand-600 {
+  color: rgba(247, 244, 236, 0.55) !important;
+}
+[data-theme="logo"] .band-navy .text-gradient {
+  background-image: linear-gradient(105deg, #c99852 0%, #b08040 40%, #f7f4ec 100%);
+}
+[data-theme="logo"] .band-navy .border-dashed {
+  border-color: rgba(176, 128, 64, 0.35) !important;
+}
+
+[data-theme="logo"] .bg-sand-900\/30,
+[data-theme="logo"] .bg-sand-900 {
+  background-color: #ffffff !important;
+}
+[data-theme="logo"] .band-navy .bg-sand-900\/30,
+[data-theme="logo"] .band-navy .bg-sand-900 {
+  background-color: rgba(255, 255, 255, 0.07) !important;
+}
+
+[data-theme="logo"] .brand-ornament {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  margin-top: 1.25rem;
+}
+[data-theme="logo"] .brand-ornament::before,
+[data-theme="logo"] .brand-ornament::after {
+  content: "";
+  height: 1px;
+  width: 3.5rem;
+  background: linear-gradient(90deg, transparent, #b08040, transparent);
+}
+[data-theme="logo"] .brand-ornament-mark {
+  width: 0.55rem;
+  height: 0.55rem;
+  transform: rotate(45deg);
+  border: 1px solid #b08040;
+  background: #ffffff;
+  box-shadow: 0 0 0 3px rgba(176, 128, 64, 0.12);
+}
+
+[data-theme="logo"] ::selection {
+  background: rgba(176, 128, 64, 0.3);
+  color: #002040;
+}
+
+/* Footer — navy */
+[data-theme="logo"] footer {
+  border-top: 1px solid rgba(176, 128, 64, 0.35) !important;
+  background: #002040 !important;
+  color: #f7f4ec;
+}
+[data-theme="logo"] footer .text-sand-50,
+[data-theme="logo"] footer .text-sand-100,
+[data-theme="logo"] footer .text-sand-200 {
+  color: #f7f4ec !important;
+}
+[data-theme="logo"] footer .text-sand-400,
+[data-theme="logo"] footer .text-sand-500 {
+  color: rgba(247, 244, 236, 0.65) !important;
+}
+[data-theme="logo"] footer .text-gold-500,
+[data-theme="logo"] footer .text-gold-400 {
+  color: #c99852 !important;
+}
+
+/* CTA / qorong‘i overlay’lar — navy + och matn */
+[data-theme="logo"] .bg-sand-950\/60 {
+  background-color: rgba(0, 32, 64, 0.72) !important;
+  color: #f7f4ec;
+}
+[data-theme="logo"] .bg-sand-950\/70,
+[data-theme="logo"] .bg-sand-950\/75 {
+  background-color: rgba(0, 32, 64, 0.82) !important;
+  color: #f7f4ec !important;
+}
+[data-theme="logo"] .bg-sand-950\/60 .text-sand-50,
+[data-theme="logo"] .bg-sand-950\/60 .text-sand-100,
+[data-theme="logo"] .bg-sand-950\/60 .text-sand-200,
+[data-theme="logo"] .bg-sand-950\/70 .text-sand-50,
+[data-theme="logo"] .bg-sand-950\/70 .text-sand-100,
+[data-theme="logo"] .bg-sand-950\/70 .text-sand-200,
+[data-theme="logo"] .bg-sand-950\/75 .text-sand-50,
+[data-theme="logo"] .bg-sand-950\/75 .text-sand-100,
+[data-theme="logo"] .bg-sand-950\/75 .text-sand-200,
+[data-theme="logo"] .bg-sand-950\/70.text-sand-200,
+[data-theme="logo"] .bg-sand-950\/75.text-sand-200 {
+  color: #f7f4ec !important;
+}
+[data-theme="logo"] .bg-sand-950\/60 .text-sand-300,
+[data-theme="logo"] .bg-sand-950\/60 .text-sand-400,
+[data-theme="logo"] .bg-sand-950\/60 .text-sand-500,
+[data-theme="logo"] .bg-sand-950\/70 .text-sand-300,
+[data-theme="logo"] .bg-sand-950\/70 .text-sand-400,
+[data-theme="logo"] .bg-sand-950\/70 .text-sand-500,
+[data-theme="logo"] .bg-sand-950\/75 .text-sand-300,
+[data-theme="logo"] .bg-sand-950\/75 .text-sand-400,
+[data-theme="logo"] .bg-sand-950\/75 .text-sand-500 {
+  color: rgba(247, 244, 236, 0.75) !important;
+}
+
+/* Rasm ustidagi chip’lar (Ekonom, rating, muddat…) */
+.photo-chip {
+  background-color: rgba(15, 13, 9, 0.78);
+  color: #faf7f2;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+[data-theme="logo"] .photo-chip {
+  background-color: rgba(0, 32, 64, 0.88) !important;
+  color: #f7f4ec !important;
+  border-color: rgba(176, 128, 64, 0.4);
+}
+[data-theme="blue"] .photo-chip,
+[data-theme="white"] .photo-chip {
+  background-color: rgba(0, 32, 64, 0.82);
+  color: #f7f4ec;
+  border-color: rgba(255, 255, 255, 0.15);
+}
+
+/* Gold tugmalarda ink = oq bo‘lsa OK; lekin och fonda ink oq bo‘lib qolmasin */
+[data-theme="logo"] .btn-shimmer,
+[data-theme="logo"] .bg-gold-500,
+[data-theme="logo"] .hover\:bg-gold-500:hover {
+  color: #ffffff !important;
+}
+
+/* Xizmatlar kartalari — oq panel + navy matn (ko‘k «loyqa» emas) */
+[data-theme="logo"] .service-card {
+  border-color: rgba(0, 32, 64, 0.1) !important;
+  background: #ffffff !important;
+  box-shadow: 0 8px 28px rgba(0, 32, 64, 0.06);
+}
+[data-theme="logo"] .service-card:hover {
+  border-color: #b08040 !important;
+  box-shadow:
+    0 0 0 1px rgba(176, 128, 64, 0.2),
+    0 14px 36px rgba(0, 32, 64, 0.1);
+}
+[data-theme="logo"] .service-card-body {
+  background: #ffffff !important;
+  border-top: 1px solid rgba(176, 128, 64, 0.2);
+}
+[data-theme="logo"] .service-card-body h3 {
+  color: #002040 !important;
+}
+[data-theme="logo"] .service-card-desc {
+  color: #4a5568 !important; /* kulrang — ko‘k emas, o‘qiladi */
+}
+[data-theme="logo"] .service-card-fade {
+  background: linear-gradient(
+    to top,
+    #ffffff 0%,
+    rgba(255, 255, 255, 0.55) 28%,
+    transparent 70%
+  ) !important;
+}
+[data-theme="logo"] .service-card-icon {
+  background: #b08040 !important;
+  color: #001830 !important;
+}
+
+/* ——— ADMIN: sayt temalaridan mustaqil, doim o‘qiladigan light UI ——— */
+.admin-shell {
+  color-scheme: light;
+  /* sand invert bo‘lsa ham admin ichida oddiy light scale */
+  --sand-50: #18181b;
+  --sand-100: #27272a;
+  --sand-200: #3f3f46;
+  --sand-300: #52525b;
+  --sand-400: #71717a;
+  --sand-500: #71717a;
+  --sand-600: #a1a1aa;
+  --sand-700: #d4d4d8;
+  --sand-800: #e4e4e7;
+  --sand-900: #f4f4f5;
+  --sand-950: #fafafa;
+  --gold-400: #b08040;
+  --gold-500: #b08040;
+  --gold-600: #8f6630;
+  --ink: #ffffff;
+  --glass-bg: #ffffff;
+  --glass-bg-strong: #ffffff;
+  --glass-border: rgba(0, 32, 64, 0.1);
+  --atmosphere: none;
+  background-color: #f4f4f5;
+  color: #18181b;
+}
+.admin-shell .theme-atmosphere,
+.admin-shell .site-atmosphere {
+  display: none !important;
+}
+
+/* Och matn (dark UI uchun yozilgan) → admin light da qorong‘i */
+.admin-shell .text-amber-200,
+.admin-shell .text-amber-300 {
+  color: #92400e !important;
+}
+.admin-shell .text-amber-400 {
+  color: #b45309 !important;
+}
+.admin-shell .text-rose-200,
+.admin-shell .text-rose-300 {
+  color: #9f1239 !important;
+}
+.admin-shell .text-sky-200,
+.admin-shell .text-sky-300 {
+  color: #0369a1 !important;
+}
+.admin-shell .text-emerald-300,
+.admin-shell .text-emerald-400 {
+  color: #047857 !important;
+}
+.admin-shell .text-red-300,
+.admin-shell .text-red-400 {
+  color: #dc2626 !important;
+}
+.admin-shell .text-zinc-400 {
+  color: #52525b !important;
+}
+.admin-shell .text-zinc-500 {
+  color: #3f3f46 !important;
+}
+.admin-shell thead,
+.admin-shell th {
+  color: #3f3f46 !important;
+}
+
+/* Banner / soft bg + pale text kombinatsiyasi */
+.admin-shell .bg-amber-500\/5 {
+  background-color: #fffbeb !important;
+}
+.admin-shell .bg-rose-500\/5 {
+  background-color: #fff1f2 !important;
+}
+.admin-shell .bg-sky-500\/5 {
+  background-color: #f0f9ff !important;
+}
+.admin-shell .bg-amber-500\/20 {
+  background-color: #fef3c7 !important;
+  color: #92400e !important;
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-12px);
+  }
+}
+
+@keyframes pulse-soft {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.55;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

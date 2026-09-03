@@ -1,0 +1,12 @@
+node_modules
+.next
+out
+.env
+.vercel
+.env*.local
+*.tsbuildinfo
+next-env.d.ts
+prisma/dev.db
+prisma/dev.db-journal
+public/uploads/*
+!public/uploads/.gitkeep
