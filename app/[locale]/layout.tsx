@@ -14,6 +14,9 @@ import { getEnabledLocales, getCities, getSiteSettings } from "@/lib/db/queries"
 import { pickLocale } from "@/lib/locale-map";
 import { fallbackLocaleCodes } from "@/lib/i18n";
 
+/** Build vaqtida DB bo‘lmasa ham deploy o‘tsin; sahifalar runtime’da yuklanadi */
+export const dynamic = "force-dynamic";
+
 export async function generateStaticParams() {
   try {
     const locales = await getEnabledLocales();
