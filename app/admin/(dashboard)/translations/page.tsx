@@ -2,7 +2,8 @@ import { prisma } from "@/lib/db/prisma";
 import { auth } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import { deleteUiCopy } from "@/lib/admin/actions";
-import { parseMap, getEnabledLocaleCodes } from "@/components/admin/ui";
+import { getEnabledLocaleCodes } from "@/lib/admin/locales";
+import { parseMap } from "@/components/admin/ui-styles";
 import { parseListParams, containsOr, type SearchParams } from "@/lib/admin/list-query";
 import { ListToolbar, Pagination } from "@/components/admin/ListToolbar";
 import {

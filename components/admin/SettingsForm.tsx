@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { saveSettings } from "@/lib/admin/actions";
-import { Field, fieldClass, btnPrimary } from "@/components/admin/ui";
+import { Field, fieldClass, btnPrimary } from "@/components/admin/ui-styles";
 
 type SettingsData = {
   whatsapp: string;

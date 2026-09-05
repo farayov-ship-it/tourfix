@@ -7,8 +7,8 @@ import {
   fieldClass,
   labelClass,
   btnPrimary,
-  getEnabledLocaleCodes,
-} from "@/components/admin/ui";
+} from "@/components/admin/ui-styles";
+import { getEnabledLocaleCodes } from "@/lib/admin/locales";
 import BulkTranslatePanel from "@/components/admin/BulkTranslatePanel";
 import { BackLink } from "@/components/admin/ListUI";
 
@@ -26,7 +26,9 @@ export default async function TranslationToolsPage() {
       <div className="flex flex-wrap items-center justify-between gap-4">
         <div>
           <h1 className="text-2xl font-semibold">Tarjima asboblari</h1>
-          <p className="mt-1 text-sm text-zinc-500">Bulk avto-tarjima va til nusxalash</p>
+          <p className="mt-1 text-sm text-zinc-500">
+            Barcha tillarga avto-tarjima (0–100%) va til nusxalash
+          </p>
         </div>
         <BackLink href="/admin/translations" />
       </div>

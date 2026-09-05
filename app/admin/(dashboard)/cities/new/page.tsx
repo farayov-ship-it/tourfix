@@ -1,7 +1,7 @@
 import { prisma } from "@/lib/db/prisma";
 import { CityForm } from "@/components/admin/forms/CityForm";
 import { BackLink } from "@/components/admin/ListUI";
-import { getEnabledLocaleCodes } from "@/components/admin/ui";
+import { getEnabledLocaleCodes } from "@/lib/admin/locales";
 
 export default async function NewCityPage() {
   const [count, locales] = await Promise.all([

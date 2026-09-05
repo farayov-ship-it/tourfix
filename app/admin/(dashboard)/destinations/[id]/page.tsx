@@ -2,7 +2,8 @@ import { notFound } from "next/navigation";
 import { prisma } from "@/lib/db/prisma";
 import { DestinationForm } from "@/components/admin/forms/DestinationForm";
 import { BackLink } from "@/components/admin/ListUI";
-import { getEnabledLocaleCodes, parseMap } from "@/components/admin/ui";
+import { getEnabledLocaleCodes } from "@/lib/admin/locales";
+import { parseMap } from "@/components/admin/ui-styles";
 
 export default async function EditDestinationPage({
   params,

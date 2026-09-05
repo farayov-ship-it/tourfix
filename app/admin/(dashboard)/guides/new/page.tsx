@@ -1,7 +1,7 @@
 import { prisma } from "@/lib/db/prisma";
 import { GuideForm } from "@/components/admin/forms/GuideForm";
 import { BackLink } from "@/components/admin/ListUI";
-import { getEnabledLocaleCodes } from "@/components/admin/ui";
+import { getEnabledLocaleCodes } from "@/lib/admin/locales";
 
 export default async function NewGuidePage() {
   const [count, locales] = await Promise.all([

@@ -1,6 +1,6 @@
 "use client";
 
-import { btnDanger } from "@/components/admin/ui";
+import { btnDanger } from "@/components/admin/ui-styles";
 
 export function DeleteButton({
   action,

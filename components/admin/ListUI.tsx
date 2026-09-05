@@ -1,7 +1,7 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
 import { Plus } from "lucide-react";
-import { btnPrimary, btnGhost, statusLabel } from "@/components/admin/ui";
+import { btnPrimary, btnGhost, statusLabel } from "@/components/admin/ui-styles";
 import { DeleteButton } from "@/components/admin/DeleteButton";
 
 export function AdminPageHeader({

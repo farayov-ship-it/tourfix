@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { Search, X } from "lucide-react";
-import { fieldClass, btnGhost, btnPrimary } from "@/components/admin/ui";
+import { fieldClass, btnGhost, btnPrimary } from "@/components/admin/ui-styles";
 import { buildListHref } from "@/lib/admin/list-query";
 
 export type FilterOption = { value: string; label: string };

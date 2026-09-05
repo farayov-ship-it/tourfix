@@ -1,7 +1,7 @@
 import { prisma } from "@/lib/db/prisma";
 import { ReviewForm } from "@/components/admin/forms/ReviewForm";
 import { BackLink } from "@/components/admin/ListUI";
-import { getEnabledLocaleCodes } from "@/components/admin/ui";
+import { getEnabledLocaleCodes } from "@/lib/admin/locales";
 
 export default async function NewReviewPage() {
   const [count, locales] = await Promise.all([

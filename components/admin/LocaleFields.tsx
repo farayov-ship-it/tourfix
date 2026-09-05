@@ -7,6 +7,8 @@ import { cn } from "@/lib/utils";
 
 const btnGhost =
   "rounded-lg border border-zinc-300 px-3 py-1.5 text-xs text-zinc-700 hover:bg-zinc-100";
+const btnPrimary =
+  "rounded-lg bg-amber-500 px-3 py-1.5 text-xs font-semibold text-zinc-950 hover:bg-amber-400 disabled:opacity-50";
 
 type Props = {
   prefix: string;
@@ -42,6 +44,13 @@ export default function LocaleFields({
   });
   const [busy, setBusy] = useState(false);
   const [msg, setMsg] = useState<string | null>(null);
+  const [progress, setProgress] = useState({
+    done: 0,
+    total: 0,
+    current: "",
+    ok: 0,
+    fail: 0,
+  });
 
   useEffect(() => {
     const next: Record<string, string> = {};
@@ -51,64 +60,71 @@ export default function LocaleFields({
 
   const tabs = showAll ? ordered : ordered.filter((c) => PRIMARY_LOCALES.includes(c) || c === active);
   const visibleTabs = tabs.length ? tabs : ordered;
+  const emptyCount = ordered.filter((c) => c !== active && !(map[c] || "").trim()).length;
+  const pct =
+    progress.total > 0 ? Math.min(100, Math.round((progress.done / progress.total) * 100)) : 0;
 
   async function autoTranslate(mode: "empty" | "all") {
-    const sourceText = (map[active] || "").trim();
+    const sourceLang = active;
+    const sourceText = (map[sourceLang] || "").trim();
     if (!sourceText) {
       setMsg("Avval joriy tilga matn yozing");
       return;
     }
     const targets =
       mode === "empty"
-        ? ordered.filter((c) => c !== active && !(map[c] || "").trim())
-        : ordered.filter((c) => c !== active);
+        ? ordered.filter((c) => c !== sourceLang && !(map[c] || "").trim())
+        : ordered.filter((c) => c !== sourceLang);
 
     if (!targets.length) {
-      setMsg(mode === "empty" ? "Bo‘sh tillar yo‘q" : "Boshqa tillar yo‘q");
+      setMsg(mode === "empty" ? "Bo‘sh tillar yo‘q — hammasi tarjima qilingan" : "Boshqa tillar yo‘q");
       return;
     }
 
     setBusy(true);
     setMsg(null);
-    try {
-      const res = await fetch("/api/admin/translate", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          text: sourceText,
-          from: active,
-          targets,
-          fillEmptyOnly: mode === "empty",
-          existing: map,
-        }),
-      });
-      const data = (await res.json()) as {
-        translations?: Record<string, string>;
-        error?: string;
-        provider?: string;
-      };
-      if (!res.ok) throw new Error(data.error || "Tarjima xatosi");
+    setShowAll(true);
+    setProgress({ done: 0, total: targets.length, current: "", ok: 0, fail: 0 });
 
-      const next = { ...map };
-      let filled = 0;
-      for (const [code, text] of Object.entries(data.translations || {})) {
-        if (text?.trim()) {
-          next[code] = text;
-          filled += 1;
+    const next = { ...map };
+    let ok = 0;
+    let fail = 0;
+
+    for (let i = 0; i < targets.length; i++) {
+      const code = targets[i];
+      setProgress({ done: i, total: targets.length, current: code, ok, fail });
+      setActive(code);
+
+      try {
+        const res = await fetch("/api/admin/translate", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ text: sourceText, from: sourceLang, to: code }),
+        });
+        const data = (await res.json()) as { translated?: string; error?: string };
+        if (!res.ok || !data.translated?.trim()) {
+          throw new Error(data.error || "bo‘sh natija");
         }
+        next[code] = data.translated.trim();
+        ok += 1;
+        setMap({ ...next });
+      } catch (e) {
+        fail += 1;
+        setMsg(
+          `${LOCALE_LABELS[code] || code}: ${e instanceof Error ? e.message : "tarjima xatosi"}`,
+        );
       }
-      setMap(next);
-      setShowAll(true);
-      setMsg(
-        filled
-          ? `${filled} tilga tarjima qilindi (${data.provider || "mt"})`
-          : "Tarjima natijasi bo‘sh — provayderni tekshiring",
-      );
-    } catch (e) {
-      setMsg(e instanceof Error ? e.message : "Tarjima xatosi");
-    } finally {
-      setBusy(false);
+
+      setProgress({ done: i + 1, total: targets.length, current: code, ok, fail });
     }
+
+    setActive(sourceLang);
+    setMsg(
+      fail
+        ? `${ok} tilga tarjima qilindi, ${fail} ta xato`
+        : `${ok} tilga avtomatik tarjima qilindi`,
+    );
+    setBusy(false);
   }
 
   return (
@@ -120,11 +136,12 @@ export default function LocaleFields({
             type="button"
             disabled={busy}
             onClick={() => autoTranslate("empty")}
-            className={`${btnGhost} inline-flex items-center gap-1.5 disabled:opacity-50`}
-            title={`${LOCALE_LABELS[active] || active} dan bo‘sh tillarga`}
+            className={`${btnPrimary} inline-flex items-center gap-1.5`}
+            title={`${LOCALE_LABELS[active] || active} dan bo‘sh tillarga (0–100%)`}
           >
             {busy ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <Languages className="h-3.5 w-3.5" />}
-            Bo‘shlarga tarjima
+            Barcha tillarga
+            {!busy && emptyCount > 0 ? ` (${emptyCount})` : ""}
           </button>
           <button
             type="button"
@@ -140,25 +157,57 @@ export default function LocaleFields({
         </div>
       </div>
 
-      {msg && <p className="text-[11px] text-amber-700">{msg}</p>}
+      {(busy || progress.total > 0) && (
+        <div className="space-y-1 rounded-lg border border-emerald-200 bg-emerald-50/70 px-3 py-2">
+          <div className="flex items-center justify-between gap-2 text-[11px] text-emerald-900">
+            <span>
+              {busy
+                ? `Tarjima: ${LOCALE_LABELS[progress.current] || progress.current || "…"}`
+                : "Tarjima yakunlandi"}
+            </span>
+            <span className="font-semibold tabular-nums">
+              {pct}% · {progress.done}/{progress.total}
+            </span>
+          </div>
+          <div className="h-2 overflow-hidden rounded-full bg-emerald-100">
+            <div
+              className="h-full bg-emerald-500 transition-all duration-300"
+              style={{ width: `${pct}%` }}
+            />
+          </div>
+          {(progress.ok > 0 || progress.fail > 0) && (
+            <p className="text-[10px] text-emerald-800/80">
+              ok {progress.ok}
+              {progress.fail ? ` · xato ${progress.fail}` : ""}
+            </p>
+          )}
+        </div>
+      )}
+
+      {msg && !busy && <p className="text-[11px] text-amber-700">{msg}</p>}
 
       <div className="flex flex-wrap items-center gap-1">
         {visibleTabs.map((code) => {
           const filled = Boolean((map[code] || "").trim());
+          const isCurrent = busy && progress.current === code;
           return (
             <button
               key={code}
               type="button"
-              onClick={() => setActive(code)}
+              onClick={() => !busy && setActive(code)}
+              disabled={busy}
               className={cn(
                 "rounded-lg px-2.5 py-1 text-xs transition",
                 active === code
                   ? "bg-amber-500 text-zinc-950 font-semibold"
                   : "bg-zinc-100 text-zinc-600 hover:text-zinc-900",
+                isCurrent && "ring-2 ring-emerald-400",
+                busy && "cursor-wait opacity-80",
               )}
             >
               {LOCALE_LABELS[code] || code}
               {filled ? "" : " ·"}
+              {isCurrent ? " …" : ""}
             </button>
           );
         })}
@@ -166,7 +215,8 @@ export default function LocaleFields({
           <button
             type="button"
             onClick={() => setShowAll((v) => !v)}
-            className="rounded-lg px-2 py-1 text-[11px] font-medium text-zinc-600 hover:text-amber-700"
+            disabled={busy}
+            className="rounded-lg px-2 py-1 text-[11px] font-medium text-zinc-600 hover:text-amber-700 disabled:opacity-50"
           >
             {showAll ? "Kamroq" : `+${ordered.length - visibleTabs.length} til`}
           </button>
@@ -182,7 +232,8 @@ export default function LocaleFields({
               onChange={(e) => setMap((m) => ({ ...m, [code]: e.target.value }))}
               rows={rows}
               placeholder={placeholder}
-              className="mt-1 w-full rounded-lg border border-zinc-300 bg-white px-3 py-2 text-sm"
+              disabled={busy}
+              className="mt-1 w-full rounded-lg border border-zinc-300 bg-white px-3 py-2 text-sm disabled:opacity-70"
             />
           ) : (
             <input
@@ -190,7 +241,8 @@ export default function LocaleFields({
               value={map[code] ?? ""}
               onChange={(e) => setMap((m) => ({ ...m, [code]: e.target.value }))}
               placeholder={placeholder}
-              className="mt-1 w-full rounded-lg border border-zinc-300 bg-white px-3 py-2 text-sm"
+              disabled={busy}
+              className="mt-1 w-full rounded-lg border border-zinc-300 bg-white px-3 py-2 text-sm disabled:opacity-70"
             />
           )}
         </div>

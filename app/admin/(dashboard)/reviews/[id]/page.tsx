@@ -2,7 +2,7 @@ import { notFound } from "next/navigation";
 import { prisma } from "@/lib/db/prisma";
 import { ReviewForm } from "@/components/admin/forms/ReviewForm";
 import { BackLink } from "@/components/admin/ListUI";
-import { getEnabledLocaleCodes } from "@/components/admin/ui";
+import { getEnabledLocaleCodes } from "@/lib/admin/locales";
 
 export default async function EditReviewPage({
   params,

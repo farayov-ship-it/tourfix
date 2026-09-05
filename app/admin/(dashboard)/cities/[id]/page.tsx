@@ -2,7 +2,8 @@ import { notFound } from "next/navigation";
 import { prisma } from "@/lib/db/prisma";
 import { CityForm } from "@/components/admin/forms/CityForm";
 import { BackLink } from "@/components/admin/ListUI";
-import { getEnabledLocaleCodes, parseMap } from "@/components/admin/ui";
+import { getEnabledLocaleCodes } from "@/lib/admin/locales";
+import { parseMap } from "@/components/admin/ui-styles";
 
 export default async function EditCityPage({
   params,

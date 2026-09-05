@@ -1,6 +1,6 @@
 import { prisma } from "@/lib/db/prisma";
 import { notFound } from "next/navigation";
-import { getEnabledLocaleCodes } from "@/components/admin/ui";
+import { getEnabledLocaleCodes } from "@/lib/admin/locales";
 import { SeoForm } from "@/components/admin/forms/SeoForm";
 import { BackLink } from "@/components/admin/ListUI";
 

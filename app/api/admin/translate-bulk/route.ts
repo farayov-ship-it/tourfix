@@ -4,6 +4,15 @@ import { prisma } from "@/lib/db/prisma";
 import { parseLocaleMap, stringifyLocaleMap } from "@/lib/locale-map";
 import { revalidatePath, revalidateTag } from "next/cache";
 
+async function enabledLocales(): Promise<string[]> {
+  const rows = await prisma.locale.findMany({
+    where: { enabled: true },
+    orderBy: { sortOrder: "asc" },
+    select: { code: true },
+  });
+  return rows.map((r) => r.code);
+}
+
 export async function GET(req: Request) {
   const session = await auth();
   if (!session?.user) {
@@ -14,11 +23,32 @@ export async function GET(req: Request) {
   const from = searchParams.get("from") || "en";
   const to = searchParams.get("to") || "";
   const mode = searchParams.get("mode") || "empty";
-  if (!to) return NextResponse.json({ error: "to kerak" }, { status: 400 });
+  const allTargets = searchParams.get("allTargets") === "1" || to === "__all__";
 
   const rows = await prisma.uiCopy.findMany({
     orderBy: [{ group: "asc" }, { key: "asc" }],
   });
+
+  if (allTargets) {
+    const locales = await enabledLocales();
+    const targets = locales.filter((c) => c !== from);
+    const jobs: { id: string; key: string; locale: string; text: string }[] = [];
+
+    for (const row of rows) {
+      const value = parseLocaleMap(row.value);
+      const src = (value[from] || "").trim();
+      if (!src) continue;
+      for (const locale of targets) {
+        const existing = (value[locale] || "").trim();
+        if (mode === "empty" && existing) continue;
+        jobs.push({ id: row.id, key: row.key, locale, text: src });
+      }
+    }
+
+    return NextResponse.json({ jobs, targets });
+  }
+
+  if (!to) return NextResponse.json({ error: "to kerak" }, { status: 400 });
 
   const items = rows
     .map((row) => {
