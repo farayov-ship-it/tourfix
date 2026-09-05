@@ -1,6 +1,5 @@
 import { prisma } from "@/lib/db/prisma";
 import { auth } from "@/lib/auth";
-import { redirect } from "next/navigation";
 import { deleteUiCopy } from "@/lib/admin/actions";
 import { getEnabledLocaleCodes } from "@/lib/admin/locales";
 import { parseMap } from "@/components/admin/ui-styles";
@@ -12,7 +11,9 @@ import {
   EmptyState,
   RowActions,
 } from "@/components/admin/ListUI";
+import TranslateAllEmptyPanel from "@/components/admin/TranslateAllEmptyPanel";
 import Link from "next/link";
+import { parseLocaleMap } from "@/lib/locale-map";
 
 function previewText(value: string, locales: string[]) {
   const m = parseMap(value);
@@ -41,7 +42,7 @@ export default async function TranslationsAdminPage({
     ],
   };
 
-  const [items, total, locales, groups] = await Promise.all([
+  const [items, total, locales, groups, allForEmpty] = await Promise.all([
     prisma.uiCopy.findMany({
       where,
       orderBy: [{ group: "asc" }, { key: "asc" }],
@@ -55,7 +56,19 @@ export default async function TranslationsAdminPage({
       select: { group: true },
       orderBy: { group: "asc" },
     }),
+    prisma.uiCopy.findMany({ select: { value: true } }),
   ]);
+
+  const sourceForStats = locales.includes("en") ? "en" : locales[0] || "en";
+  let emptySlots = 0;
+  for (const row of allForEmpty) {
+    const m = parseLocaleMap(row.value);
+    if (!(m[sourceForStats] || "").trim()) continue;
+    for (const code of locales) {
+      if (code === sourceForStats) continue;
+      if (!(m[code] || "").trim()) emptySlots += 1;
+    }
+  }
 
   const filterParams = { q: q || undefined, group: group || undefined };
 
@@ -63,7 +76,7 @@ export default async function TranslationsAdminPage({
     <div className="space-y-6">
       <AdminPageHeader
         title="Tarjimalar"
-        subtitle={`${total} ta kalit`}
+        subtitle={`${total} ta kalit${emptySlots ? ` · ${emptySlots} bo‘sh tarjima` : ""}`}
         createHref="/admin/translations/new"
         createLabel="Kalit qo‘shish"
         extra={
@@ -76,6 +89,12 @@ export default async function TranslationsAdminPage({
             </Link>
           ) : undefined
         }
+      />
+
+      <TranslateAllEmptyPanel
+        locales={locales}
+        defaultFrom={sourceForStats}
+        emptySlots={emptySlots}
       />
 
       <ListToolbar
