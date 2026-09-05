@@ -8,6 +8,7 @@ import BookingModal from "@/components/BookingModal";
 import GoldCursor from "@/components/GoldCursor";
 import SiteAtmosphere from "@/components/SiteAtmosphere";
 import ScrollProgress from "@/components/ScrollProgress";
+import ClientErrorBoundary from "@/components/ClientErrorBoundary";
 import { TranslationProvider } from "@/lib/i18n-client";
 import { buildLocaleDict } from "@/lib/build-dict";
 import { getEnabledLocales, getCities, getSiteSettings } from "@/lib/db/queries";
@@ -74,8 +75,12 @@ export default async function LocaleLayout({ children, params }: LocaleLayoutPro
       <TranslationProvider dict={dict}>
         <BookingProvider>
           <div lang={locale} dir={localeOptions.find((l) => l.code === locale)?.dir || "ltr"}>
-            <SiteAtmosphere />
-            <GoldCursor />
+            <ClientErrorBoundary>
+              <SiteAtmosphere />
+            </ClientErrorBoundary>
+            <ClientErrorBoundary>
+              <GoldCursor />
+            </ClientErrorBoundary>
             <ScrollProgress />
             <div className="relative z-10">
               <Navbar locale={locale} locales={localeOptions} />

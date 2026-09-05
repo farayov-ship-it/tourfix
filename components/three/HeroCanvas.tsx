@@ -74,6 +74,16 @@ export default function HeroCanvas() {
         dpr={[1, 1.5]}
         gl={{ antialias: false, alpha: true, powerPreference: "high-performance" }}
         style={{ background: "transparent" }}
+        onCreated={({ gl }) => {
+          const canvas = gl.domElement;
+          canvas.addEventListener(
+            "webglcontextlost",
+            (e) => {
+              e.preventDefault();
+            },
+            false,
+          );
+        }}
       >
         <Suspense fallback={null}>
           <ambientLight intensity={0.35} />

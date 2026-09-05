@@ -2,6 +2,7 @@
 
 import dynamic from "next/dynamic";
 import { useEffect, useState } from "react";
+import ClientErrorBoundary from "@/components/ClientErrorBoundary";
 
 const HeroCanvas = dynamic(() => import("./HeroCanvas"), {
   ssr: false,
@@ -21,5 +22,9 @@ export default function HeroBackground() {
   // No big yellow orb — empty when WebGL off (photo + UI carry the look)
   if (!show3d) return null;
 
-  return <HeroCanvas />;
+  return (
+    <ClientErrorBoundary>
+      <HeroCanvas />
+    </ClientErrorBoundary>
+  );
 }
